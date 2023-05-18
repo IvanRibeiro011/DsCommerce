@@ -1,6 +1,8 @@
 package com.devsuperior.dscommerce.controller;
 
 import com.devsuperior.dscommerce.dto.ProductDTO;
+import com.devsuperior.dscommerce.exceptions.DatabaseException;
+import com.devsuperior.dscommerce.exceptions.ResourceNotFoundException;
 import com.devsuperior.dscommerce.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,7 +21,7 @@ public class ProductController {
     private ProductService service;
 
     @GetMapping("{id}")
-    public ResponseEntity<ProductDTO> findById(@PathVariable("id") Long id) {
+    public ResponseEntity<ProductDTO> findById(@PathVariable("id") Long id) throws ResourceNotFoundException {
         return ResponseEntity.ok(service.findById(id));
     }
 
@@ -36,12 +38,12 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ProductDTO> update(@PathVariable("id") Long id, @RequestBody ProductDTO dto) {
+    public ResponseEntity<ProductDTO> update(@PathVariable("id") Long id, @RequestBody ProductDTO dto) throws ResourceNotFoundException {
         return ResponseEntity.ok(service.update(id, dto));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> update(@PathVariable("id") Long id) {
+    public ResponseEntity<Void> update(@PathVariable("id") Long id) throws DatabaseException, ResourceNotFoundException {
         service.delete(id);
         return ResponseEntity.noContent().build();
     }
