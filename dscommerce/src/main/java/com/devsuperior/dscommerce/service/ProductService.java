@@ -14,32 +14,41 @@ public class ProductService {
 
     @Autowired
     private ProductRepository repository;
+
     @Transactional(readOnly = true)
-    public ProductDTO findById(Long id){
+    public ProductDTO findById(Long id) {
         Product product = repository.findById(id).get();
         return new ProductDTO(product);
     }
+
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findAll(Pageable pageable){
+    public Page<ProductDTO> findAll(Pageable pageable) {
         Page<Product> product = repository.findAll(pageable);
         return product.map(ProductDTO::new);
     }
+
     @Transactional
-    public ProductDTO insert(ProductDTO dto){
+    public ProductDTO insert(ProductDTO dto) {
         Product product = new Product();
-        copyDTOToEntity(product,dto);
-        repository.save(product);
-        return new ProductDTO(product);
-    }
-    @Transactional
-    public ProductDTO update(Long id, ProductDTO dto){
-        Product product = repository.getReferenceById(id);
-        copyDTOToEntity(product,dto);
+        copyDTOToEntity(product, dto);
         repository.save(product);
         return new ProductDTO(product);
     }
 
-    private void copyDTOToEntity(Product product,ProductDTO dto){
+    @Transactional
+    public ProductDTO update(Long id, ProductDTO dto) {
+        Product product = repository.getReferenceById(id);
+        copyDTOToEntity(product, dto);
+        repository.save(product);
+        return new ProductDTO(product);
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        repository.deleteById(id);
+    }
+
+    private void copyDTOToEntity(Product product, ProductDTO dto) {
         product.setName(dto.getName());
         product.setDescription(dto.getDescription());
         product.setPrice(dto.getPrice());
