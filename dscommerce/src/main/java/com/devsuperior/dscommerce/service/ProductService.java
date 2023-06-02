@@ -1,6 +1,7 @@
 package com.devsuperior.dscommerce.service;
 
 import com.devsuperior.dscommerce.dto.ProductDTO;
+import com.devsuperior.dscommerce.dto.ProductMinDTO;
 import com.devsuperior.dscommerce.entity.Product;
 import com.devsuperior.dscommerce.exceptions.DatabaseException;
 import com.devsuperior.dscommerce.exceptions.ResourceNotFoundException;
@@ -28,9 +29,9 @@ public class ProductService {
     }
 
     @Transactional(readOnly = true)
-    public Page<ProductDTO> findAll(Pageable pageable) {
-        Page<Product> product = repository.findAll(pageable);
-        return product.map(ProductDTO::new);
+    public Page<ProductMinDTO> findAll(String name, Pageable pageable) {
+        Page<Product> product = repository.searchByName(name,pageable);
+        return product.map(ProductMinDTO::new);
     }
 
     @Transactional

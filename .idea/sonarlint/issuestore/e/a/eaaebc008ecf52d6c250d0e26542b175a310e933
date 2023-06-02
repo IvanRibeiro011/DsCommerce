@@ -1,0 +1,11 @@
+
+|
+java:S1450&"_Remove the "authorizedScopes" field and declare it as a local variable in the relevant methods.(¹Ó…®8“ÚÈ‘‡1
+t
+java:S1450%"WRemove the "password" field and declare it as a local variable in the relevant methods.(µ£ „8”ÚÈ‘‡1
+t
+java:S1450$"WRemove the "username" field and declare it as a local variable in the relevant methods.(Ã•¯º8”ÚÈ‘‡1
+v
+java:S6201s"TReplace this instanceof check and cast with 'instanceof ClaimAccessor claimaccessor'(¬¸±‚ÿÿÿÿÿ8œÚÈ‘‡1
+X
+java:S1611t"6Remove the parentheses around the "metadata" parameter(ÐÆßþüÿÿÿÿ8œÚÈ‘‡1

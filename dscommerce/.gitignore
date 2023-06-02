@@ -13,6 +13,9 @@ target/
 .springBeans
 .sts4-cache
 
+# ---- Sonar
+.sonar
+
 ### IntelliJ IDEA ###
 .idea
 *.iws

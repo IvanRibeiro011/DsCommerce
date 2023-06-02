@@ -1,14 +1,16 @@
 package com.devsuperior.dscommerce.entity;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "tb_user")
-public class User {
+public class User implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,8 +20,13 @@ public class User {
     private String phone;
     private LocalDate birthDate;
     private String password;
+
     @OneToMany(mappedBy = "client")
     private List<Order> orders = new ArrayList<>();
+    @ManyToMany
+    @JoinTable(name = "tb_user_role", joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
     public User() {
     }
@@ -83,5 +90,58 @@ public class User {
 
     public List<Order> getOrders() {
         return orders;
+    }
+
+    public void addRole(Role role) {
+        roles.add(role);
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        User user = (User) o;
+
+        return Objects.equals(id, user.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return id != null ? id.hashCode() : 0;
+    }
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.name;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
     }
 }
